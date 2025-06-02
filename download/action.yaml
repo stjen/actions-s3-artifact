@@ -44,12 +44,6 @@ runs:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
-    - name: Configure public downloads
-      if: inputs.aws-access-key-id == '' || inputs.aws-secret-access-key == ''
-      shell: bash
-      run: |
-        # Configure public downloads
-        echo "AWS_CLI_ARGS=--no-sign-request" >> $GITHUB_ENV
     - name: Download artifacts from s3 (old)
       id: s3
       shell: bash
