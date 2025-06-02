@@ -5,6 +5,9 @@ inputs:
     required: false
     description: Path to download artifacts to
     default: .
+  aws-cli-args: 
+    required: false
+    description: Additional arguments to give the aws cli
   strip:
     required: false
     description: Strip leading path components from downloaded artifacts
@@ -64,7 +67,8 @@ runs:
         # S3 URI to download
         S3URI="${{ inputs.s3uri }}"
         ARTIFACT_NAME="$(basename $S3URI)"
-
+        AWS_CLI_ARGS="${{ inputs.aws-cli-args }}"
+        
         # Try to download and handle failure
         AWSCMD=${AWSCMD:-aws}
         $AWSCMD s3 cp $AWS_CLI_ARGS "$S3URI" "$TMPFILE" || {
