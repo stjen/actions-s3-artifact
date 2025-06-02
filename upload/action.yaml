@@ -79,8 +79,7 @@ runs:
         # Tarball the temporary path into a single object if "compress" is true, return the folder path otherwise
         if [[ "${{ inputs.compress }}" == "true" ]]; then
           echo "Creating artifact tarball"
-          tar -czvf "$TMPTAR" -C "$TMPARTIFACT" --transform='s/^\.\///' \
-            --show-transformed .
+          tar -czvf "$TMPTAR" -C "$TMPARTIFACT" .
 
           # List the actual contents of the archive
           if [[ -n "$RUNNER_DEBUG" ]]; then
