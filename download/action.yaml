@@ -28,6 +28,10 @@ inputs:
     required: false
     description: AWS region of the S3 location
     default: us-east-1
+  s3-method:
+    required: false
+    description: Method to use for the download
+    default: cp
 
 outputs:
   s3uri:
@@ -68,10 +72,11 @@ runs:
         S3URI="${{ inputs.s3uri }}"
         ARTIFACT_NAME="$(basename $S3URI)"
         AWS_CLI_ARGS="${{ inputs.aws-cli-args }}"
+        S3_METHOD="${{ inputs.s3-method }}"
         
         # Try to download and handle failure
         AWSCMD=${AWSCMD:-aws}
-        $AWSCMD s3 cp "$S3URI" "$TMPFILE" $AWS_CLI_ARGS || {
+        $AWSCMD s3 "S3_METHOD" "$S3URI" "$TMPFILE" $AWS_CLI_ARGS || {
           echo "success=false" >> $GITHUB_OUTPUT
           if [[ "${{ inputs.not-found }}" == "ignore" ]]; then
             echo "::debug::Artifact not found at $S3URI"
