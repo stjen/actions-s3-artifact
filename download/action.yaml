@@ -76,7 +76,7 @@ runs:
         
         # Try to download and handle failure
         AWSCMD=${AWSCMD:-aws}
-        $AWSCMD s3 "S3_METHOD" "$S3URI" "$TMPFILE" $AWS_CLI_ARGS || {
+        $AWSCMD s3 "$S3_METHOD" "$S3URI" "$TMPFILE" $AWS_CLI_ARGS || {
           echo "success=false" >> $GITHUB_OUTPUT
           if [[ "${{ inputs.not-found }}" == "ignore" ]]; then
             echo "::debug::Artifact not found at $S3URI"
