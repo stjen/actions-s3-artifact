@@ -101,6 +101,6 @@ runs:
           mv "$TMPFILE" "${{ inputs.path }}/$ARTIFACT_NAME"
         fi
         echo "::debug::Contents of artifact path"
-        echo "$(tree -a "${{ inputs.path }}" 2>&1)"
+        echo "$(ls -R "${{ inputs.path }}" 2>&1)"
         echo "success=true" >> $GITHUB_OUTPUT
         echo "s3uri=$S3URI" >> $GITHUB_OUTPUT
