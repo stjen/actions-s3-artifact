@@ -65,13 +65,9 @@ runs:
             echo "::notice::Skipping empty"
             continue
           fi
-          if [[ -f "$name" ]]; then
-            echo "::warning::File "$name" does not exist"
-            continue
-          fi
           echo "Adding '$name'"
           mkdir -p "$TMPARTIFACT/$(dirname "$name")"
-          cp -r "$name" "$TMPARTIFACT/$(dirname "$name")"
+          cp -r "$name" "$TMPARTIFACT/$(dirname "$name")" || echo "::warning::File "$name" does not exist"
         done
 
         # List out everything in the temporary path
