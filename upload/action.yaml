@@ -62,7 +62,11 @@ runs:
         # Iterate through each artifact path and copy it to the temporary path
         for name in ${ARTIFACT_PATHS[@]}; do
           if [[ -z "$name" ]]; then
-            echo "::debug::Skipping empty"
+            echo "::notice::Skipping empty"
+            continue
+          fi
+          if [[ -f "$name" ]]; then
+            echo "::warning::File "$name" does not exist"
             continue
           fi
           echo "Adding '$name'"
