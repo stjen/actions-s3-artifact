@@ -105,7 +105,7 @@ runs:
       id: s3
       shell: bash
       run: |
-        AWSCMD=${AWSCMD:-aws}
+        AWSCMD=${AWSCMD:-"aws s3"}
         S3URI="${{ inputs.s3uri }}"
         if [[ "$S3URI" != s3://* ]]; then
           echo "::warning::'s3uri' should start with s3://"
@@ -124,10 +124,10 @@ runs:
         # Upload the artifact to S3 based on keyname from previous step
         if [[ "${{ inputs.compress }}" == "true" ]]; then
           echo "Uploading '${{ steps.collect.outputs.tarball }}' to S3 '$S3URI'"
-          $AWSCMD s3 cp "${{ steps.collect.outputs.tarball }}" "$S3URI"
+          $AWSCMD cp "${{ steps.collect.outputs.tarball }}" "$S3URI"
         else
           echo "Uploading '${{ steps.collect.outputs.folder }}' to S3 '$S3URI'"
-          $AWSCMD s3 cp --recursive "${{ steps.collect.outputs.folder }}" "$S3URI"
+          $AWSCMD cp --recursive "${{ steps.collect.outputs.folder }}" "$S3URI"
         fi
         # Output the S3 URL for use in subsequent steps
         echo "s3uri=$S3URI" >> $GITHUB_OUTPUT
