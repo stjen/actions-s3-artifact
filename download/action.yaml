@@ -75,7 +75,7 @@ runs:
         S3_METHOD="${{ inputs.s3-method }}"
         
         # Try to download and handle failure
-        AWSCMD=${AWSCMD:-aws}
+        AWSCMD=${AWSCMD:-"aws s3"}
         $AWSCMD s3 "$S3_METHOD" "$S3URI" "$TMPFILE" $AWS_CLI_ARGS || {
           echo "success=false" >> $GITHUB_OUTPUT
           if [[ "${{ inputs.not-found }}" == "ignore" ]]; then
